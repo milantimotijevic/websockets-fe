@@ -1,0 +1,31 @@
+<html>
+<head>
+    <script src="socket.io.js"></script>
+    <title>Home Page</title>
+</head>
+
+<body>
+<h1>Razna hakovanja...</h1>
+
+<button id="get-heatmap">Get Entire Heatmap</button> <br><br>
+<ul id="display"></ul>
+
+
+<script>
+	const getHeatmapButton = document.getElementById('get-heatmap');
+	const display = document.getElementById('display');
+
+	const socket = io('http://localhost:3001');
+	socket.on('heatmap-update', function(data) {
+		const li = document.createElement('li');
+		li.appendChild(document.createTextNode(JSON.stringify(data)));
+		display.appendChild(li);
+	});
+
+	getHeatmapButton.addEventListener('click', function() {
+        socket.emit('get-heatmap', { start_hour: 0, end_hour: 24 });
+	});
+
+</script>
+</body>
+</html>

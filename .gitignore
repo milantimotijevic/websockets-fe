@@ -1,0 +1,8 @@
+# Dependency directories
+node_modules/
+
+# other
+.DS_Store
+.idea
+.vscode
+*.iml

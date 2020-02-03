@@ -7,20 +7,33 @@
 <body>
 <h1>Razna hakovanja...</h1>
 
+<button id="change-query">Change Query</button>
 <button id="get-heatmap">Get Entire Heatmap</button> <br><br>
 <ul id="display"></ul>
 
 
 <script>
+    const changeQueryButton = document.getElementById('change-query');
 	const getHeatmapButton = document.getElementById('get-heatmap');
 	const display = document.getElementById('display');
 
-	const socket = io('http://localhost:3001');
+	let socket = io('http://localhost:3001', { query: {
+		    cat: 'meow'
+        }
+	});
 	socket.on('heatmap-update', function(data) {
 		const li = document.createElement('li');
 		li.appendChild(document.createTextNode(JSON.stringify(data)));
 		display.appendChild(li);
 	});
+
+	changeQueryButton.addEventListener('click', function() {
+		socket.disconnect();
+		socket = io('http://localhost:3001', { query: {
+				cat: 'woof'
+			}
+		})
+    });
 
 	getHeatmapButton.addEventListener('click', function() {
         socket.emit('get-heatmap', { start_hour: 0, end_hour: 24 });

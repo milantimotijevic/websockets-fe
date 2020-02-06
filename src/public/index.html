@@ -17,22 +17,22 @@
 	const getHeatmapButton = document.getElementById('get-heatmap');
 	const display = document.getElementById('display');
 
-	let socket = io('http://localhost:3001', { query: {
-		    cat: 'meow'
-        }
-	});
-	socket.on('heatmap-update', function(data) {
-		const li = document.createElement('li');
-		li.appendChild(document.createTextNode(JSON.stringify(data)));
-		display.appendChild(li);
-	});
+	let socket;
+
+	function setupSocket(url, query) {
+		socket = io(url, { query });
+
+		socket.on('heatmap-update', function(data) {
+			const li = document.createElement('li');
+			li.appendChild(document.createTextNode(JSON.stringify(data)));
+			display.appendChild(li);
+		});
+    }
+
+    setupSocket('http://localhost:3001', { start_hour: 1, end_hour: 24 });
 
 	changeQueryButton.addEventListener('click', function() {
-		socket.disconnect();
-		socket = io('http://localhost:3001', { query: {
-				cat: 'woof'
-			}
-		})
+		socket.emit('set-filters', { start_hour: 5, end_hour: 15});
     });
 
 	getHeatmapButton.addEventListener('click', function() {

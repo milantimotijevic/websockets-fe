@@ -17,19 +17,7 @@
 	const getHeatmapButton = document.getElementById('get-heatmap');
 	const display = document.getElementById('display');
 
-	let socket;
-
-	function setupSocket(url, query) {
-		socket = io(url, { query });
-
-		socket.on('heatmap-update', function(data) {
-			const li = document.createElement('li');
-			li.appendChild(document.createTextNode(JSON.stringify(data)));
-			display.appendChild(li);
-		});
-    }
-
-    setupSocket('http://localhost:3001', { start_hour: 1, end_hour: 24 });
+	const socket = io('https://store-heatmap-api.dev.augustusny.com');
 
 	changeQueryButton.addEventListener('click', function() {
 		socket.emit('set-filters', { start_hour: 5, end_hour: 15});

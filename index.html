@@ -17,6 +17,7 @@
 	const getHeatmapButton = document.getElementById('get-heatmap');
 	const display = document.getElementById('display');
 
+	//const socket = io('https://store-heatmap-api.dev.augustusny.com/');
 	const socket = io('http://localhost:3001');
 	socket.on('heatmap-update', function(data) {
 		const li = document.createElement('li');

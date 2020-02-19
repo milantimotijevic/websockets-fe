@@ -8,7 +8,7 @@
 <h1>Razna hakovanja...</h1>
 
 <textarea style="height: 5%; width: 30%" id="filter-input"></textarea><br>
-<button id="change-query">Change Query</button>
+<button id="change-filter">Change Filter</button>
 <button id="get-heatmap">Get Entire Heatmap</button> <br><br>
 <h3>Heatmap Data</h3>
 <ul id="display"></ul>
@@ -22,7 +22,7 @@
 
 <script>
 	const filterInput = document.getElementById('filter-input');
-    const changeQueryButton = document.getElementById('change-query');
+    const changeFilterButton = document.getElementById('change-filter');
 	const getHeatmapButton = document.getElementById('get-heatmap');
 	const display = document.getElementById('display');
 	const mutationDisplay = document.getElementById('mutation-display');
@@ -48,8 +48,8 @@
 		errDisplay.appendChild(li);
     });
 
-	changeQueryButton.addEventListener('click', function() {
-		const filters = JSON.parse(filterInput.value);
+	changeFilterButton.addEventListener('click', function() {
+		const filters = filterInput.value ? JSON.parse(filterInput.value) : {};
 		socket.emit('set-filters', filters);
     });
 

@@ -54,7 +54,7 @@
     });
 
 	getHeatmapButton.addEventListener('click', function() {
-        socket.emit('aggregation-request', { start_hour: 0, end_hour: 24 });
+        socket.emit('aggregation-request');
 	});
 
 </script>

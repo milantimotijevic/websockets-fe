@@ -3,60 +3,64 @@
     <script src="socket.io.js"></script>
     <title>Home Page</title>
 </head>
-
 <body>
 <h1>Razna hakovanja...</h1>
-
-<textarea style="height: 5%; width: 30%" id="filter-input"></textarea><br>
+<textarea style="height: 5%; width: 30%" id="filter-input"></textarea><br />
 <button id="change-filter">Change Filter</button>
-<button id="get-heatmap">Get Entire Heatmap</button> <br><br>
+<button id="get-heatmap">Get Entire Heatmap</button>
+<button id="get-paths">Get Paths</button> <br /><br />
 <h3>Heatmap Data</h3>
-<ul id="display"></ul>
-<br><br>
+<ul id="heatmap-display"></ul>
+<br /><br />
+<h3>Paths Data</h3>
+<hl id="paths-display"></hl>
+<br /><br />
 <h3>Mutations</h3>
 <hl id="mutation-display"></hl>
-<br><br>
+<br /><br />
 <h3>Errors</h3>
 <ul id="err-display"></ul>
-
-
 <script>
-	const filterInput = document.getElementById('filter-input');
-    const changeFilterButton = document.getElementById('change-filter');
-	const getHeatmapButton = document.getElementById('get-heatmap');
-	const display = document.getElementById('display');
-	const mutationDisplay = document.getElementById('mutation-display');
-	const errDisplay = document.getElementById('err-display');
-
+	const filterInput = document.getElementById('filter-input')
+	const changeFilterButton = document.getElementById('change-filter')
+	const getHeatmapButton = document.getElementById('get-heatmap')
+	const getPathsButton = document.getElementById('get-paths')
+	const heatmapDisplay = document.getElementById('heatmap-display')
+	const pathsDisplay = document.getElementById('paths-display')
+	const mutationDisplay = document.getElementById('mutation-display')
+	const errDisplay = document.getElementById('err-display')
 	//const socket = io('https://store-heatmap-api.dev.augustusny.com/');
-	const socket = io('http://localhost:3001');
-	socket.on('aggregation-response', function(data) {
-		const li = document.createElement('li');
-		li.appendChild(document.createTextNode(JSON.stringify(data)));
-		display.appendChild(li);
-    });
-
-	socket.on('heatmap-mutation', function(data) {
-		const li = document.createElement('li');
-		li.appendChild(document.createTextNode(JSON.stringify(data)));
-		mutationDisplay.appendChild(li);
-    });
-
+	const socket = io('http://localhost:3001')
+	socket.on('heatmap-response', function(data) {
+		const li = document.createElement('li')
+		li.appendChild(document.createTextNode(JSON.stringify(data)))
+		heatmapDisplay.appendChild(li)
+	})
+	socket.on('mutation', function(data) {
+		const li = document.createElement('li')
+		li.appendChild(document.createTextNode(JSON.stringify(data)))
+		mutationDisplay.appendChild(li)
+	})
+	socket.on('paths-response', function(data) {
+		const li = document.createElement('li')
+		li.appendChild(document.createTextNode(JSON.stringify(data)))
+		pathsDisplay.appendChild(li)
+	})
 	socket.on('error-report', function(data) {
-		const li = document.createElement('li');
-		li.appendChild(document.createTextNode(JSON.stringify(data)));
-		errDisplay.appendChild(li);
-    });
-
+		const li = document.createElement('li')
+		li.appendChild(document.createTextNode(JSON.stringify(data)))
+		errDisplay.appendChild(li)
+	})
 	changeFilterButton.addEventListener('click', function() {
-		const filters = filterInput.value ? JSON.parse(filterInput.value) : {};
-		socket.emit('set-filters', filters);
-    });
-
+		const filters = filterInput.value ? JSON.parse(filterInput.value) : {}
+		socket.emit('set-filters', filters)
+	})
 	getHeatmapButton.addEventListener('click', function() {
-        socket.emit('aggregation-request');
-	});
-
+		socket.emit('heatmap-request')
+	})
+	getPathsButton.addEventListener('click', function() {
+		socket.emit('paths-request')
+	})
 </script>
 </body>
 </html>

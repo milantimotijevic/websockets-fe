@@ -29,8 +29,8 @@
 	const pathsDisplay = document.getElementById('paths-display')
 	const mutationDisplay = document.getElementById('mutation-display')
 	const errDisplay = document.getElementById('err-display')
-	//const socket = io('https://store-heatmap-api.dev.augustusny.com/');
-	const socket = io('http://localhost:3001')
+	const socket = io('https://store-heatmap-api.dev.augustusny.com/');
+	// const socket = io('http://localhost:3001')
 	socket.on('heatmap-response', function(data) {
 		const li = document.createElement('li')
 		li.appendChild(document.createTextNode(JSON.stringify(data)))

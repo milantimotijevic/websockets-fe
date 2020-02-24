@@ -29,8 +29,25 @@
 	const pathsDisplay = document.getElementById('paths-display')
 	const mutationDisplay = document.getElementById('mutation-display')
 	const errDisplay = document.getElementById('err-display')
-	const socket = io('wss://store-heatmap-api.dev.augustusny.com');
-	// const socket = io('ws://localhost:3001')
+
+    // TARGET AUGUSTUS DEV
+	const socket = io('wss://store-heatmap-api.dev.augustusny.com', {
+		path: '/socket.io',
+		transports: ['websocket']
+	});
+
+    // TARGET HEROKU
+	// const socket = io('wss://nameless-lowlands-57694.herokuapp.com', {
+	// 	path: '/socket.io',
+    //     transports: ['websocket']
+    // });
+
+	// TARGET LOCAL ENV
+	// const socket = io('ws://localhost:3001', {
+	// 	path: '/socket.io',
+	// 	transports: ['websocket']
+	// });
+
 	socket.on('heatmap-response', function(data) {
 		const li = document.createElement('li')
 		li.appendChild(document.createTextNode(JSON.stringify(data)))
